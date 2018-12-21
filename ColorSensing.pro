@@ -25,10 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    sensor.c
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    sensor.h
 
 FORMS += \
         mainwindow.ui
+
+# Default rules for target deployment.
+target.path = /home/student/qt5
+INSTALLS += target
