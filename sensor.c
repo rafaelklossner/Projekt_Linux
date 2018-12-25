@@ -88,6 +88,7 @@ void readTest(uint8_t reg){
 void getData(uint16_t *r, uint16_t *g, uint16_t *b, uint16_t *c){
     /* check if sensor is running */
     if (sensorRunning == 1){
+        printf("getData\n");
         uint8_t cBuffer[2] = {0};
         uint8_t rBuffer[2] = {0};
         uint8_t gBuffer[2] = {0};
@@ -109,6 +110,7 @@ void getData(uint16_t *r, uint16_t *g, uint16_t *b, uint16_t *c){
         bBuffer[0] = read8(TCS34725_BDATAL);
         bBuffer[1] = read8(TCS34725_BDATAH);
         *b = ( (bBuffer[1] << 8) | bBuffer[0] );
+        printf("%d %d %d %d\n",*r,*g,*b,*c);
     }else{ /* if not print a message to console */
         printf("Sensor not running --> call sensorInit() and startSensor() first\n");
     }

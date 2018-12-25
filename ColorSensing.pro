@@ -30,7 +30,8 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    sensor.h
+    sensor.h \
+    config.h
 
 FORMS += \
         mainwindow.ui
