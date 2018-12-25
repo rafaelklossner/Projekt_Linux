@@ -13,6 +13,7 @@ extern "C"{
 /* c++ header */
 #include "mainwindow.h"
 #include <QApplication>
+#include <QThread>
 #include <iostream>
 #include <thread>
 using namespace std;
@@ -32,9 +33,13 @@ int main(int argc, char *argv[])
         MainWindow window;
         window.show();
 
+        //QThread *thread1 = QThread::create(runningLight);
+        // extra setup...
+        //thread1->start(); // calls myFunction in another thread, passing arg1 and arg2
+
         /* start thread for button poll */
         // Constructs the new thread and runs it. Does not block execution.
-        //thread t1(runningLight, "Hello");
+        //thread t1(runningLight);
 
         // Do other things...
 
@@ -42,6 +47,7 @@ int main(int argc, char *argv[])
         //t1.join();
 
         /* stays in here until finish*/
+
         return qApplication.exec();
     }
     return 0;
