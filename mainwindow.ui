@@ -49,7 +49,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>150</y>
+      <y>290</y>
       <width>201</width>
       <height>111</height>
      </rect>
@@ -59,6 +59,22 @@
     </property>
     <property name="text">
      <string>Stop application</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>160</y>
+      <width>201</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Reset messurement</string>
     </property>
    </widget>
   </widget>

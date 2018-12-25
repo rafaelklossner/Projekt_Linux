@@ -61,6 +61,18 @@ void MainWindow::on_pushButton_2_clicked()
     this->~MainWindow();
 }
 
+void MainWindow::on_pushButton_3_clicked()
+{
+    /* reset values */
+    red = 0;
+    green = 0;
+    blue = 0;
+    clear = 0;
+
+    /* update display */
+    update();
+}
+
 /* is called when update() is called */
 void MainWindow::paintEvent(QPaintEvent *event)
 {
@@ -75,14 +87,16 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
 
     /* print rgb value label */
-    label->setText("red: " + QString::number(red)
-                   + "\ngreen: " + QString::number(blue)
-                   + "\nblue: " + QString::number(green)
-                   + "\nclear: " + QString::number(clear));
+    label->setText("red:        " + QString::number(red)
+                   + "\ngreen:   " + QString::number(blue)
+                   + "\nblue:      " + QString::number(green)
+                   + "\nclear:     " + QString::number(clear));
     label->setGeometry(LABEL_POS_X,LABEL_POS_Y,LABEL_SIZE_X,LABEL_SIZE_Y);
     QFont f( "Ubuntu", LABEL_FONT_SIZE, QFont::Light);
     label->setFont(f);
     label->show();
 }
+
+
 
 

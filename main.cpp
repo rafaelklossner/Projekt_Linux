@@ -1,5 +1,5 @@
 /*TODO
- * add thread for poll buttons (currently for c++ not working)
+ * add thread for poll buttons (currently for c++ not working, library version missing)
  * Solve i2c-4 problem --> must touch display to continue (display also on i2c-4 bus) --> possibly solved with not shuting down x-server
  * proper clean up when pressing finish button (now it ends with segmentation fault)
  */

@@ -10,7 +10,7 @@
 #define RECT_SIZE_Y 200
 #define LABEL_POS_X 300
 #define LABEL_POS_Y 40
-#define LABEL_SIZE_X 150
+#define LABEL_SIZE_X 200
 #define LABEL_SIZE_Y 150
 #define LABEL_FONT_SIZE 25
 
