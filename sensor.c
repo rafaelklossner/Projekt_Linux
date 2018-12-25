@@ -1,7 +1,3 @@
-/*TODO
- * Solve i2c-4 problem --> must touch display to continue (display also on i2c-4 bus) --> possibly solved with not shuting down x-server
- */
-
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -88,7 +84,6 @@ void readTest(uint8_t reg){
 void getData(uint16_t *r, uint16_t *g, uint16_t *b, uint16_t *c){
     /* check if sensor is running */
     if (sensorRunning == 1){
-        printf("getData\n");
         uint8_t cBuffer[2] = {0};
         uint8_t rBuffer[2] = {0};
         uint8_t gBuffer[2] = {0};

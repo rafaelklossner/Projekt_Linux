@@ -1,9 +1,13 @@
+/* c header */
+extern "C"{
+#include "sensor.h"
+#include "button.h"
+}
+
+/* c++ header */
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "config.h"
-extern "C"{
-#include "sensor.h"
-}
 #include <QStyleFactory>
 #include <QString>
 #include <QFont>
@@ -38,8 +42,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
     label->~QLabel();
-    stopSensor();
-    deinitSensor();
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -53,6 +55,9 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    stopSensor();
+    deinitSensor();
+    deinitHardware();
     this->~MainWindow();
 }
 

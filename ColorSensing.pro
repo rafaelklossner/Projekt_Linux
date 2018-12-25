@@ -26,12 +26,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    sensor.c
+    sensor.c \
+    button.c
 
 HEADERS += \
         mainwindow.h \
     sensor.h \
-    config.h
+    config.h \
+    button.h
 
 FORMS += \
         mainwindow.ui

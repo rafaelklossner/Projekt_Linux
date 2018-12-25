@@ -1,6 +1,8 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
+#include <stdint.h>
+
 #define TCS34725_ADDRESS          (0x29)
 
 #define TCS34725_COMMAND_BIT      (0x80)
