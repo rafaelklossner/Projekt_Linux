@@ -47,7 +47,7 @@ void digitalWrite(char pin[], char value[]) {
     close(fd_value);
 }
 
-int digitalRead(char pin[]) {
+int digitalRead(const char pin[]) {
     assert(strcmp(pin,"120")==0 || strcmp(pin,"121")==0 || strcmp(pin,"122")==0  || strcmp(pin,"123")==0
             || strcmp(pin,"124")==0 || strcmp(pin,"125")==0 || strcmp(pin,"126")==0 || strcmp(pin,"127")==0);
     char path[40];
@@ -110,6 +110,7 @@ void* runningLight(void){
 
 void* pollButtons(void){
     while(1){
+        printf("poll\n");
         if (digitalRead("121") == 0){
             if(blink_period > 62500){
                 blink_period /= 2;

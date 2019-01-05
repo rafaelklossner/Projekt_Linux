@@ -27,13 +27,15 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     sensor.c \
-    button.c
+    button.c \
+    threadPollButtons.cpp
 
 HEADERS += \
         mainwindow.h \
     sensor.h \
     config.h \
-    button.h
+    button.h \
+    threadPollButtons.h
 
 FORMS += \
         mainwindow.ui

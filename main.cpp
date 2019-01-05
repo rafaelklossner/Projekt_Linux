@@ -15,40 +15,27 @@ extern "C"{
 #include <QApplication>
 #include <QThread>
 #include <iostream>
-#include <thread>
-using namespace std;
+#include <threadPollButtons.h>
 
-pthread_t tid[2];
+using namespace std;
 
 int main(int argc, char *argv[])
 {
     int status = 0;
     cout << "Starting Application Color Sensing\n";
-    initHardware();
-    status = initSensor();
-    if(status == 1){
-        configSensor();
-        startSensor();
+    //initHardware();
+    //status = initSensor();
+    //if(status == 1){
+        //configSensor();
+        //startSensor();
         QApplication qApplication(argc, argv);
+        ThreadPollButtons threadPollButtons;
+        threadPollButtons.start();
         MainWindow window;
         window.show();
 
-        //QThread *thread1 = QThread::create(runningLight);
-        // extra setup...
-        //thread1->start(); // calls myFunction in another thread, passing arg1 and arg2
-
-        /* start thread for button poll */
-        // Constructs the new thread and runs it. Does not block execution.
-        //thread t1(runningLight);
-
-        // Do other things...
-
-        // Makes the main thread wait for the new thread to finish execution, therefore blocks its own execution.
-        //t1.join();
-
         /* stays in here until finish*/
-
         return qApplication.exec();
-    }
+    //}
     return 0;
 }

@@ -11,13 +11,13 @@ extern "C"{
 #include <QStyleFactory>
 #include <QString>
 #include <QFont>
+#include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent)
 {
-    /* setup ui */
-    ui->setupUi(this);
+    /* set window size*/
+    this->setFixedSize(SIZE_X, SIZE_Y);
 
     /* change design */
     qApp->setStyle(QStyleFactory::create("fusion"));
@@ -36,15 +36,35 @@ MainWindow::MainWindow(QWidget *parent) :
     palette.setColor(QPalette::Highlight, QColor(142,45,197).lighter());
     palette.setColor(QPalette::HighlightedText, Qt::black);
     qApp->setPalette(palette);
+
+    /* add button1 */
+    button1 = new QPushButton("Start messurement", this);
+    button1->setGeometry(BUTTON_POS_X, BUTTON_POS_Y, BUTTON_SIZE_X, BUTTON_SIZE_Y);
+    connect(button1, SIGNAL (clicked()), this, SLOT (button1_clicked()));
+
+    /* add button2 */
+    button2 = new QPushButton("Reset messurement", this);
+    button2->setGeometry(BUTTON_POS_X, BUTTON_POS_Y + BUTTON_SIZE_Y + BUTTON_GAP, BUTTON_SIZE_X, BUTTON_SIZE_Y);
+    connect(button2, SIGNAL (clicked()), this, SLOT (button2_clicked()));
+
+    /* add button3 */
+    button3 = new QPushButton("Quit", this);
+    button3->setGeometry(BUTTON_POS_X, BUTTON_POS_Y + 2*(BUTTON_SIZE_Y + BUTTON_GAP), BUTTON_SIZE_X, BUTTON_SIZE_Y);
+    connect(button3, SIGNAL (clicked()), this, SLOT (button3_clicked()));
+
+    /* add label */
+    label = new QLabel(this);
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
     label->~QLabel();
+    button1->~QPushButton();
+    button2->~QPushButton();
+    button3->~QPushButton();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::button1_clicked()
 {
     /* change values */
     getData(&red, &green, &blue, &clear);
@@ -52,25 +72,23 @@ void MainWindow::on_pushButton_clicked()
     /* update display */
     update();
 }
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    stopSensor();
-    deinitSensor();
-    deinitHardware();
-    this->~MainWindow();
-}
-
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::button2_clicked()
 {
     /* reset values */
-    red = 0;
+    red = 50;
     green = 0;
     blue = 0;
     clear = 0;
 
     /* update display */
     update();
+}
+void MainWindow::button3_clicked()
+{
+    //stopSensor();
+    //deinitSensor();
+    //deinitHardware();
+    this->~MainWindow();
 }
 
 /* is called when update() is called */
@@ -82,9 +100,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     /* print colored rect */
     QPainter *painter = new QPainter(this);
     painter->fillRect(RECT_POS_X, RECT_POS_Y, RECT_SIZE_X, RECT_SIZE_Y, QColor(red,green,blue));
-    //painter->drawText(RECT_POS_X, RECT_POS_Y, "Machine " + QString::number(20));
     painter->~QPainter();
-
 
     /* print rgb value label */
     label->setText("red:        " + QString::number(red)

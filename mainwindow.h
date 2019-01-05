@@ -4,11 +4,8 @@
 #include <QMainWindow>
 #include <QPainter>
 #include <QLabel>
+#include <QPushButton>
 #include <stdint.h>
-
-namespace Ui {
-class MainWindow;
-}
 
 class MainWindow : public QMainWindow
 {
@@ -21,18 +18,18 @@ public:
     uint16_t blue = 0;
     uint16_t green = 0;
     uint16_t clear = 0;
-
-private slots:
-    void on_pushButton_clicked();
     void paintEvent(QPaintEvent *event);
 
-    void on_pushButton_2_clicked();
-
-    void on_pushButton_3_clicked();
+private slots:
+    void button1_clicked();
+    void button2_clicked();
+    void button3_clicked();
 
 private:
-    Ui::MainWindow *ui;
-    QLabel *label = new QLabel(this);
+    QLabel *label;
+    QPushButton *button1;
+    QPushButton *button2;
+    QPushButton *button3;
 };
 
 #endif // MAINWINDOW_H
