@@ -17,7 +17,7 @@
 #define LABEL_FONT_SIZE 25
 
 #define BUTTON_SIZE_X 200
-#define BUTTON_SIZE_Y 50
+#define BUTTON_SIZE_Y 90
 
 #define BUTTON_POS_X 40
 #define BUTTON_POS_Y 40

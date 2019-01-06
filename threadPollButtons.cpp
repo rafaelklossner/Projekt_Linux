@@ -7,8 +7,9 @@ extern "C"{
 
 using namespace std;
 
-ThreadPollButtons::ThreadPollButtons()
+ThreadPollButtons::ThreadPollButtons(MainWindow *window1)
 {
+    window = window1;
 }
 
 void ThreadPollButtons::run()
@@ -20,6 +21,7 @@ void ThreadPollButtons::run()
             if(state[0] == 1){
                 /* perform action */
                 cout << "T1\n";
+                window->messure();
             }
             state[0] = 0;
         }else{
@@ -29,7 +31,7 @@ void ThreadPollButtons::run()
         if (digitalRead("121") == 0){
             if(state[1] == 1){
                 /* perform action */
-                cout << "T2\n";
+                window->reset();
             }
             state[1] = 0;
         }else{
@@ -50,6 +52,7 @@ void ThreadPollButtons::run()
             if(state[3] == 1){
                 /* perform action */
                 cout << "T4\n";
+                window->end();
             }
             state[3] = 0;
         }else{

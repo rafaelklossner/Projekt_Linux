@@ -13,9 +13,10 @@ extern "C"{
 #include <QFont>
 #include <QApplication>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+MainWindow::MainWindow(QApplication *qApplication1)
 {
+    qApplication = qApplication1;
+
     /* set window size*/
     this->setFixedSize(SIZE_X, SIZE_Y);
 
@@ -62,9 +63,16 @@ MainWindow::~MainWindow()
     button1->~QPushButton();
     button2->~QPushButton();
     button3->~QPushButton();
+    //qApplication->closeAllWindows();
+    //qApplication->quit();
+    //qApplication->~QApplication();
 }
 
 void MainWindow::button1_clicked()
+{
+    messure();
+}
+void MainWindow::messure()
 {
     /* change values */
     getData(&red, &green, &blue, &clear);
@@ -72,7 +80,12 @@ void MainWindow::button1_clicked()
     /* update display */
     update();
 }
+
 void MainWindow::button2_clicked()
+{
+    reset();
+}
+void MainWindow::reset()
 {
     /* reset values */
     red = 0;
@@ -83,11 +96,16 @@ void MainWindow::button2_clicked()
     /* update display */
     update();
 }
+
 void MainWindow::button3_clicked()
 {
-    //stopSensor();
-    //deinitSensor();
-    //deinitHardware();
+    end();
+}
+void MainWindow::end()
+{
+    stopSensor();
+    deinitSensor();
+    deinitHardware();
     this->~MainWindow();
 }
 

@@ -29,10 +29,10 @@ int main(int argc, char *argv[])
         configSensor();
         startSensor();
         QApplication qApplication(argc, argv);
-        ThreadPollButtons threadPollButtons;
-        threadPollButtons.start();
-        MainWindow window;
+        MainWindow window(&qApplication);
         window.show();
+        ThreadPollButtons threadPollButtons(&window);
+        threadPollButtons.start();
 
         /* stays in here until finish*/
         return qApplication.exec();

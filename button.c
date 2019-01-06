@@ -1,5 +1,4 @@
 #include "button.h"
-#include <pthread.h>        /* posix threads */
 #include <stdio.h>          /* for printf */
 #include <stdlib.h>         /* for exit, EXIT_FAILURE */
 #include <unistd.h>         /* sleep */

@@ -7,18 +7,21 @@
 #include <QPushButton>
 #include <stdint.h>
 
-class MainWindow : public QMainWindow
+class MainWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QApplication *qApplication1);
     ~MainWindow();
     uint16_t red = 0;
     uint16_t blue = 0;
     uint16_t green = 0;
     uint16_t clear = 0;
     void paintEvent(QPaintEvent *event);
+    void messure();
+    void reset();
+    void end();
 
 private slots:
     void button1_clicked();
@@ -26,6 +29,7 @@ private slots:
     void button3_clicked();
 
 private:
+    QApplication *qApplication;
     QLabel *label;
     QPushButton *button1;
     QPushButton *button2;
