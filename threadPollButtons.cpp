@@ -31,6 +31,7 @@ void ThreadPollButtons::run()
         if (digitalRead("121") == 0){
             if(state[1] == 1){
                 /* perform action */
+                cout << "T2\n";
                 window->reset();
             }
             state[1] = 0;

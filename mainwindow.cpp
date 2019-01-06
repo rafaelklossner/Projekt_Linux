@@ -59,9 +59,13 @@ MainWindow::MainWindow(QApplication *qApplication1)
 
 MainWindow::~MainWindow()
 {
+    label->hide();
     label->~QLabel();
+    button1->hide();
     button1->~QPushButton();
+    button2->hide();
     button2->~QPushButton();
+    button3->hide();
     button3->~QPushButton();
     //qApplication->closeAllWindows();
     //qApplication->quit();
