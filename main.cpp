@@ -23,11 +23,11 @@ int main(int argc, char *argv[])
 {
     int status = 0;
     cout << "Starting Application Color Sensing\n";
-    //initHardware();
-    //status = initSensor();
-    //if(status == 1){
-        //configSensor();
-        //startSensor();
+    initHardware();
+    status = initSensor();
+    if(status == 1){
+        configSensor();
+        startSensor();
         QApplication qApplication(argc, argv);
         ThreadPollButtons threadPollButtons;
         threadPollButtons.start();
@@ -36,6 +36,6 @@ int main(int argc, char *argv[])
 
         /* stays in here until finish*/
         return qApplication.exec();
-    //}
+    }
     return 0;
 }

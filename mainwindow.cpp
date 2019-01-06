@@ -75,7 +75,7 @@ void MainWindow::button1_clicked()
 void MainWindow::button2_clicked()
 {
     /* reset values */
-    red = 50;
+    red = 0;
     green = 0;
     blue = 0;
     clear = 0;

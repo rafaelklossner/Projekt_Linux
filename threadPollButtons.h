@@ -12,6 +12,10 @@ public:
 
     // overriding the QThread's run() method
     void run();
+
+private:
+    //state array for debouncing */
+    char state[4];
 };
 
 #endif // THREADPOLLBUTTONS_H

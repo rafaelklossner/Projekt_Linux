@@ -147,10 +147,10 @@ void initHardware(void){
     pinMode("121", "in");
     pinMode("122", "in");
     pinMode("123", "in");
-    digitalWrite("124", "1");
-    digitalWrite("125", "1");
-    digitalWrite("126", "1");
-    digitalWrite("127", "1");
+    digitalWrite("124", "0");
+    digitalWrite("125", "0");
+    digitalWrite("126", "0");
+    digitalWrite("127", "0");
 }
 
 void deinitHardware(void){
