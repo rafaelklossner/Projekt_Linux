@@ -3,6 +3,7 @@
 #include <iostream>
 extern "C"{
 #include "button.h"
+#include "poti.h"
 }
 
 using namespace std;
@@ -59,6 +60,9 @@ void ThreadPollButtons::run()
         }else{
             state[3] = 1;
         }
+
+        float value = readPoti();
+        cout << "value: " << value << "\n";
 
         this->usleep(100000);
     }

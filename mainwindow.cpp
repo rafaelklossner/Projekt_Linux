@@ -53,14 +53,30 @@ MainWindow::MainWindow(QApplication *qApplication1)
     button3->setGeometry(BUTTON_POS_X, BUTTON_POS_Y + 2*(BUTTON_SIZE_Y + BUTTON_GAP), BUTTON_SIZE_X, BUTTON_SIZE_Y);
     connect(button3, SIGNAL (clicked()), this, SLOT (button3_clicked()));
 
-    /* add label */
-    label = new QLabel(this);
+    /* add label1 */
+    label1 = new QLabel(this);
+
+    /* add label2 */
+    label2 = new QLabel(this);
+
+    /* add label3 */
+    label3 = new QLabel(this);
+
+    /* add slider1 */
+    slider1 = new QSlider(this);
+    slider1->setGeometry(SLIDER_POS_X, SLIDER_POS_Y, SLIDER_SIZE_X, SLIDER_SIZE_Y);
+    slider1->setOrientation(Qt::Horizontal);
+
+    /* add slider1 */
+    slider2 = new QSlider(this);
+    slider2->setGeometry(SLIDER_POS_X, SLIDER_POS_Y + SLIDER_GAP, SLIDER_SIZE_X, SLIDER_SIZE_Y);
+    slider2->setOrientation(Qt::Horizontal);
 }
 
 MainWindow::~MainWindow()
 {
-    label->hide();
-    label->~QLabel();
+    label1->hide();
+    label1->~QLabel();
     button1->hide();
     button1->~QPushButton();
     button2->hide();
@@ -125,14 +141,26 @@ void MainWindow::paintEvent(QPaintEvent *event)
     painter->~QPainter();
 
     /* print rgb value label */
-    label->setText("red:        " + QString::number(red)
+    label1->setText("red:        " + QString::number(red)
                    + "\ngreen:   " + QString::number(blue)
                    + "\nblue:      " + QString::number(green)
                    + "\nclear:     " + QString::number(clear));
-    label->setGeometry(LABEL_POS_X,LABEL_POS_Y,LABEL_SIZE_X,LABEL_SIZE_Y);
+    label1->setGeometry(LABEL_POS_X,LABEL_POS_Y,LABEL_SIZE_X,LABEL_SIZE_Y);
     QFont f( "Ubuntu", LABEL_FONT_SIZE, QFont::Light);
-    label->setFont(f);
-    label->show();
+    label1->setFont(f);
+    label1->show();
+
+    /* show slider description */
+    QFont font2( "Ubuntu", 10, QFont::Light);
+    label2->setText("integration time: " + QString::number(integration));
+    label2->setGeometry(SLIDER_POS_X,SLIDER_POS_Y - 20,LABEL_SIZE_X,LABEL_SIZE_Y);
+    label2->setFont(font2);
+    label2->show();
+
+    label3->setText("gain: " + QString::number(gain));
+    label3->setGeometry(SLIDER_POS_X,SLIDER_POS_Y - 20 + SLIDER_GAP,LABEL_SIZE_X,LABEL_SIZE_Y);
+    label3->setFont(font2);
+    label3->show();
 }
 
 

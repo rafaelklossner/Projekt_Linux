@@ -24,5 +24,13 @@
 
 #define BUTTON_GAP 40
 
+#define SLIDER_POS_X 550
+#define SLIDER_POS_Y 40
+#define SLIDER_SIZE_X 200
+#define SLIDER_SIZE_Y 40
+
+#define SLIDER_GAP 80
+
+
 
 #endif // CONFIG_H

@@ -8,6 +8,7 @@
 extern "C"{
 #include "sensor.h"
 #include "button.h"
+#include "poti.h"
 }
 
 /* c++ header */
@@ -24,6 +25,7 @@ int main(int argc, char *argv[])
     int status = 0;
     cout << "Starting Application Color Sensing\n";
     initHardware();
+    initPoti();
     status = initSensor();
     if(status == 1){
         configSensor();
