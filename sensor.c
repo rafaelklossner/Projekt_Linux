@@ -148,7 +148,7 @@ void stopSensor(void){
 void configSensor(void){
     printf("config sensor\n");
     /* set integration time */
-    write8(TCS34725_ATIME, TCS34725_INTEGRATIONTIME_101MS);
+    write8(TCS34725_ATIME, TCS34725_INTEGRATIONTIME_24MS);
     /* set gain */
     write8(TCS34725_CONTROL, TCS34725_GAIN_1X);
 }

@@ -1,5 +1,4 @@
 #include "button.h"
-#include <pthread.h>        /* posix threads */
 #include <stdio.h>          /* for printf */
 #include <stdlib.h>         /* for exit, EXIT_FAILURE */
 #include <unistd.h>         /* sleep */
@@ -47,7 +46,7 @@ void digitalWrite(char pin[], char value[]) {
     close(fd_value);
 }
 
-int digitalRead(char pin[]) {
+int digitalRead(const char pin[]) {
     assert(strcmp(pin,"120")==0 || strcmp(pin,"121")==0 || strcmp(pin,"122")==0  || strcmp(pin,"123")==0
             || strcmp(pin,"124")==0 || strcmp(pin,"125")==0 || strcmp(pin,"126")==0 || strcmp(pin,"127")==0);
     char path[40];
@@ -110,6 +109,7 @@ void* runningLight(void){
 
 void* pollButtons(void){
     while(1){
+        printf("poll\n");
         if (digitalRead("121") == 0){
             if(blink_period > 62500){
                 blink_period /= 2;
@@ -146,10 +146,10 @@ void initHardware(void){
     pinMode("121", "in");
     pinMode("122", "in");
     pinMode("123", "in");
-    digitalWrite("124", "1");
-    digitalWrite("125", "1");
-    digitalWrite("126", "1");
-    digitalWrite("127", "1");
+    digitalWrite("124", "0");
+    digitalWrite("125", "0");
+    digitalWrite("126", "0");
+    digitalWrite("127", "0");
 }
 
 void deinitHardware(void){

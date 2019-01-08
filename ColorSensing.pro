@@ -27,13 +27,17 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     sensor.c \
-    button.c
+    button.c \
+    threadPollButtons.cpp \
+    poti.c
 
 HEADERS += \
         mainwindow.h \
     sensor.h \
     config.h \
-    button.h
+    button.h \
+    threadPollButtons.h \
+    poti.h
 
 FORMS += \
         mainwindow.ui

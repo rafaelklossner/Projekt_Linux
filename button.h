@@ -3,7 +3,7 @@
 
 void pinMode(char pin[], char mode[]);
 void digitalWrite(char pin[], char value[]);
-int digitalRead(char pin[]);
+int digitalRead(const char pin[]);
 void cleanUp(char pin[]);
 void* runningLight(void);
 void* pollButtons(void);

@@ -4,35 +4,43 @@
 #include <QMainWindow>
 #include <QPainter>
 #include <QLabel>
+#include <QPushButton>
+#include <QSlider>
 #include <stdint.h>
 
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class MainWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QApplication *qApplication1);
     ~MainWindow();
     uint16_t red = 0;
     uint16_t blue = 0;
     uint16_t green = 0;
     uint16_t clear = 0;
+    uint16_t integration = 0;
+    uint16_t gain = 0;
+    void paintEvent(QPaintEvent *event);
+    void messure();
+    void reset();
+    void end();
 
 private slots:
-    void on_pushButton_clicked();
-    void paintEvent(QPaintEvent *event);
-
-    void on_pushButton_2_clicked();
-
-    void on_pushButton_3_clicked();
+    void button1_clicked();
+    void button2_clicked();
+    void button3_clicked();
 
 private:
-    Ui::MainWindow *ui;
-    QLabel *label = new QLabel(this);
+    QApplication *qApplication;
+    QLabel *label1;
+    QLabel *label2;
+    QLabel *label3;
+    QPushButton *button1;
+    QPushButton *button2;
+    QPushButton *button3;
+    QSlider *slider1;
+    QSlider *slider2;
 };
 
 #endif // MAINWINDOW_H
