@@ -13,10 +13,46 @@
 static int i2c_fd;
 static int sensorConnected = 0;
 static int sensorRunning = 0;
+static tcs34725IntegrationTime_t integrationTime = TCS34725_INTEGRATIONTIME_24MS;
+static tcs34725Gain_t gain = TCS34725_GAIN_1X;
 
 /* local function declaration */
 void write8(uint8_t reg, uint8_t value);
 uint8_t read8(uint8_t reg);
+
+/**
+ * @brief get IntegationTime of the sensor
+ * @return tcs34725IntegrationTime_t time macro
+ */
+tcs34725IntegrationTime_t getIntegationTime(void){
+    return integrationTime;
+}
+
+/**
+ * @brief get Gain of the sensor
+ * @return tcs34725Gain_t gain macro
+ */
+tcs34725Gain_t getGain(void){
+    return gain;
+}
+
+/**
+ * @brief set Gain of the sensor
+ * @param setGain gain macro to set
+ */
+void setGain(tcs34725Gain_t setGain){
+    gain = setGain;
+    configSensor();
+}
+
+/**
+ * @brief set IntegationTime of the sensor
+ * @param setIntegrationTime time macro to set
+ */
+void setIntegationTime(tcs34725IntegrationTime_t setIntegrationTime){
+    integrationTime = setIntegrationTime;
+    configSensor();
+}
 
 /**
  * @brief write a byte to color sensor
@@ -148,9 +184,9 @@ void stopSensor(void){
 void configSensor(void){
     printf("config sensor\n");
     /* set integration time */
-    write8(TCS34725_ATIME, TCS34725_INTEGRATIONTIME_24MS);
+    write8(TCS34725_ATIME, integrationTime);
     /* set gain */
-    write8(TCS34725_CONTROL, TCS34725_GAIN_1X);
+    write8(TCS34725_CONTROL, gain);
 }
 
 /**

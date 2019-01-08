@@ -31,6 +31,8 @@
 
 #define SLIDER_GAP 80
 
-
-
+#define POTI_MAX 161
+#define POTI_MIN 13
+#define POTI_GAP_4 37
+#define POTI_GAP_6 25
 #endif // CONFIG_H

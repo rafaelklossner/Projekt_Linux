@@ -161,6 +161,10 @@ void MainWindow::paintEvent(QPaintEvent *event)
     label3->setGeometry(SLIDER_POS_X,SLIDER_POS_Y - 20 + SLIDER_GAP,LABEL_SIZE_X,LABEL_SIZE_Y);
     label3->setFont(font2);
     label3->show();
+
+    /* change slider status */
+    slider1->setSliderPosition(50);
+    slider2->setSliderPosition(50);
 }
 
 

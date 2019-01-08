@@ -82,5 +82,8 @@ void stopSensor(void);
 void deinitSensor(void);
 void readTest(uint8_t reg);
 void getData(uint16_t *r, uint16_t *g, uint16_t *b, uint16_t *c);
-
+tcs34725Gain_t getGain(void);
+tcs34725IntegrationTime_t getIntegationTime(void);
+void setGain(tcs34725Gain_t setGain);
+void setIntegationTime(tcs34725IntegrationTime_t setIntegrationTime);
 #endif // SENSOR_H
