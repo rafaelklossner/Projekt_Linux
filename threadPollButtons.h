@@ -17,7 +17,8 @@ public:
 private:
     //state array for debouncing */
     char state[4];
-
+    int potiValue;
+    int potiValueOld;
     MainWindow *window;
 };
 

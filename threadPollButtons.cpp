@@ -63,37 +63,45 @@ void ThreadPollButtons::run()
             state[3] = 1;
         }
 
-        int value = readPoti() * 100;
-        //cout << "value: " << value << "\n";
-        switch (value / POTI_GAP_6) {
-        case 0: /* biggest value */
-            cout << "0\n";
-            setIntegationTime(TCS34725_INTEGRATIONTIME_700MS);
-            break;
-        case 1:
-            cout << "1\n";
-            setIntegationTime(TCS34725_INTEGRATIONTIME_154MS);
-            break;
-        case 2:
-            cout << "2\n";
-            setIntegationTime(TCS34725_INTEGRATIONTIME_101MS);
-            break;
-        case 3:
-            cout << "3\n";
-            setIntegationTime(TCS34725_INTEGRATIONTIME_50MS);
-            break;
-        case 4:
-            cout << "4\n";
-            setIntegationTime(TCS34725_INTEGRATIONTIME_24MS);
-            break;
-        case 5: /* smallest value */
-            cout << "5\n";
-            setIntegationTime(TCS34725_INTEGRATIONTIME_2_4MS);
-            break;
-        default:
-            break;
+        /* read poti value and convert to int */
+        potiValue = readPoti() * 100;
+
+        /* set the integrtion time if potiValue has changed */
+        if (potiValue != potiValueOld){
+            switch (potiValue / POTI_GAP_6) {
+            case 0: /* biggest value */
+                cout << "0\n";
+                setIntegationTime(TCS34725_INTEGRATIONTIME_700MS);
+                break;
+            case 1:
+                cout << "1\n";
+                setIntegationTime(TCS34725_INTEGRATIONTIME_154MS);
+                break;
+            case 2:
+                cout << "2\n";
+                setIntegationTime(TCS34725_INTEGRATIONTIME_101MS);
+                break;
+            case 3:
+                cout << "3\n";
+                setIntegationTime(TCS34725_INTEGRATIONTIME_50MS);
+                break;
+            case 4:
+                cout << "4\n";
+                setIntegationTime(TCS34725_INTEGRATIONTIME_24MS);
+                break;
+            case 5: /* smallest value */
+                cout << "5\n";
+                setIntegationTime(TCS34725_INTEGRATIONTIME_2_4MS);
+                break;
+            default:
+                break;
+            }
         }
 
+        /* save the old potiValue */
+        potiValueOld = potiValue;
+
+        /* do something else */
         this->usleep(100000);
     }
 }

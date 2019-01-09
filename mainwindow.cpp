@@ -8,6 +8,7 @@ extern "C"{
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "config.h"
+#include "sensor.h"
 #include <QStyleFactory>
 #include <QString>
 #include <QFont>
@@ -150,9 +151,38 @@ void MainWindow::paintEvent(QPaintEvent *event)
     label1->setFont(f);
     label1->show();
 
+    /* change slider status */
+    tcs34725IntegrationTime_t integrationTime = getIntegationTime();
+    int integrationTimeValue = 0;
+
+    switch (integrationTime) {
+    case TCS34725_INTEGRATIONTIME_2_4MS:
+        integrationTimeValue = 0;
+        break;
+    case TCS34725_INTEGRATIONTIME_24MS:
+        integrationTimeValue = 3;
+        break;
+    case TCS34725_INTEGRATIONTIME_50MS:
+        integrationTimeValue = 7;
+        break;
+    case TCS34725_INTEGRATIONTIME_101MS:
+        integrationTimeValue = 14;
+        break;
+    case TCS34725_INTEGRATIONTIME_154MS:
+        integrationTimeValue = 21;
+        break;
+    case TCS34725_INTEGRATIONTIME_700MS:
+        integrationTimeValue = 100;
+        break;
+    default:
+        break;
+    }
+    slider1->setSliderPosition(integrationTimeValue);
+    slider2->setSliderPosition(50);
+
     /* show slider description */
     QFont font2( "Ubuntu", 10, QFont::Light);
-    label2->setText("integration time: " + QString::number(integration));
+    label2->setText("integration time: " + QString::number(integrationTimeValue));
     label2->setGeometry(SLIDER_POS_X,SLIDER_POS_Y - 20,LABEL_SIZE_X,LABEL_SIZE_Y);
     label2->setFont(font2);
     label2->show();
@@ -161,10 +191,6 @@ void MainWindow::paintEvent(QPaintEvent *event)
     label3->setGeometry(SLIDER_POS_X,SLIDER_POS_Y - 20 + SLIDER_GAP,LABEL_SIZE_X,LABEL_SIZE_Y);
     label3->setFont(font2);
     label3->show();
-
-    /* change slider status */
-    slider1->setSliderPosition(50);
-    slider2->setSliderPosition(50);
 }
 
 
