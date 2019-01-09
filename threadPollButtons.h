@@ -19,6 +19,7 @@ private:
     char state[4];
     int potiValue;
     int potiValueOld;
+    int loopDivider = 0;
     MainWindow *window;
 };
 

@@ -35,4 +35,7 @@
 #define POTI_MIN 13
 #define POTI_GAP_4 37
 #define POTI_GAP_6 25
+
+#define POTI_LOOP_DIVIDER 100
+
 #endif // CONFIG_H

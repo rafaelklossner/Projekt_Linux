@@ -21,6 +21,7 @@ public:
     uint16_t clear = 0;
     uint16_t integration = 0;
     uint16_t gain = 0;
+    int selectedSlider = 0;
     void paintEvent(QPaintEvent *event);
     void messure();
     void reset();
