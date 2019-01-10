@@ -18,6 +18,8 @@ ThreadPollButtons::ThreadPollButtons(MainWindow *window1)
 void ThreadPollButtons::run()
 {
     while(1){
+        cout << "thread\n";
+
         /* read buttons and debounce them by compare actual with old value */
         /* button T1 */
         if (digitalRead("120") == 0){
@@ -144,9 +146,6 @@ void ThreadPollButtons::run()
                     break;
                 }
             }
-
-            /* update display when poti value changed */
-            window->update();
         }
 
         /* save the old potiValue */
@@ -154,6 +153,9 @@ void ThreadPollButtons::run()
 
         /* increment loopDivider */
         loopDivider++;
+
+        /* update display when poti value changed */
+        window->update();
 
         /* do something else */
         this->usleep(100000);

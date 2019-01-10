@@ -141,7 +141,6 @@ void MainWindow::paintEvent(QPaintEvent *event)
     /* print colored rect */
     QPainter *painter = new QPainter(this);
     painter->fillRect(RECT_POS_X, RECT_POS_Y, RECT_SIZE_X, RECT_SIZE_Y, QColor(red,green,blue));
-    painter->~QPainter();
 
     /* print rgb value label */
     label1->setText("red:        " + QString::number(red)
@@ -223,7 +222,8 @@ void MainWindow::paintEvent(QPaintEvent *event)
         rect.setRect(SLIDER_POS_X, SLIDER_POS_Y + SLIDER_GAP, SLIDER_SIZE_X, SLIDER_SIZE_Y);
     }
     painter->setPen(QColor(142,45,197));
-    painter->drawRect(&rect);
+    painter->drawRect(rect);
+    painter->~QPainter();
 }
 
 
