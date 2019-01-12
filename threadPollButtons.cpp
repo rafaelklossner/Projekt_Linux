@@ -10,11 +10,18 @@ extern "C"{
 
 using namespace std;
 
+/**
+ * @brief ThreadPollButtons::ThreadPollButtons constructor
+ * @param window1
+ */
 ThreadPollButtons::ThreadPollButtons(MainWindow *window1)
 {
     window = window1;
 }
 
+/**
+ * @brief ThreadPollButtons::run thread to poll buttons and poti
+ */
 void ThreadPollButtons::run()
 {
     while(1){

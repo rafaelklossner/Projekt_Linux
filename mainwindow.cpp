@@ -16,6 +16,10 @@ extern "C"{
 #include <QApplication>
 #include <QRect>
 
+/**
+ * @brief MainWindow::MainWindow constructor
+ * @param qApplication1
+ */
 MainWindow::MainWindow(QApplication *qApplication1)
 {
     qApplication = qApplication1;
@@ -76,6 +80,9 @@ MainWindow::MainWindow(QApplication *qApplication1)
     slider2->setOrientation(Qt::Horizontal);
 }
 
+/**
+ * @brief MainWindow::~MainWindow destructor
+ */
 MainWindow::~MainWindow()
 {
     label1->hide();
@@ -91,10 +98,16 @@ MainWindow::~MainWindow()
     //qApplication->~QApplication();
 }
 
+/**
+ * @brief MainWindow::button1_clicked slot function for button1
+ */
 void MainWindow::button1_clicked()
 {
     messure();
 }
+/**
+ * @brief MainWindow::messure get value from sensor
+ */
 void MainWindow::messure()
 {
     /* change values */
@@ -104,10 +117,16 @@ void MainWindow::messure()
     update();
 }
 
+/**
+ * @brief MainWindow::button2_clicked slot function for button2
+ */
 void MainWindow::button2_clicked()
 {
     reset();
 }
+/**
+ * @brief MainWindow::reset reset all sensor values
+ */
 void MainWindow::reset()
 {
     /* reset values */
@@ -120,10 +139,16 @@ void MainWindow::reset()
     update();
 }
 
+/**
+ * @brief MainWindow::button3_clicked slot function for button3
+ */
 void MainWindow::button3_clicked()
 {
     end();
 }
+/**
+ * @brief MainWindow::end end application
+ */
 void MainWindow::end()
 {
     stopSensor();
@@ -132,7 +157,10 @@ void MainWindow::end()
     this->~MainWindow();
 }
 
-/* is called when update() is called */
+/**
+ * @brief MainWindow::paintEvent repain display on update()
+ * @param event
+ */
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     /* avoid compiler warning */

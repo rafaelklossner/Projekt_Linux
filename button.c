@@ -9,6 +9,11 @@
 int blink_period = 1000000;
 int direction = 0;
 
+/**
+ * @brief set mode "in" or "out" for specific pin
+ * @param pin
+ * @param mode
+ */
 void pinMode(char pin[], char mode[]) {
     assert(strcmp(pin,"120")==0 || strcmp(pin,"121")==0 || strcmp(pin,"122")==0  || strcmp(pin,"123")==0
             || strcmp(pin,"124")==0 || strcmp(pin,"125")==0 || strcmp(pin,"126")==0 || strcmp(pin,"127")==0);
@@ -31,6 +36,11 @@ void pinMode(char pin[], char mode[]) {
     close(fd_direction);
 }
 
+/**
+ * @brief write value to pin
+ * @param pin
+ * @param value
+ */
 void digitalWrite(char pin[], char value[]) {
     assert(strcmp(pin,"120")==0 || strcmp(pin,"121")==0 || strcmp(pin,"122")==0  || strcmp(pin,"123")==0
             || strcmp(pin,"124")==0 || strcmp(pin,"125")==0 || strcmp(pin,"126")==0 || strcmp(pin,"127")==0);
@@ -46,6 +56,11 @@ void digitalWrite(char pin[], char value[]) {
     close(fd_value);
 }
 
+/**
+ * @brief read value from pin
+ * @param pin
+ * @return
+ */
 int digitalRead(const char pin[]) {
     assert(strcmp(pin,"120")==0 || strcmp(pin,"121")==0 || strcmp(pin,"122")==0  || strcmp(pin,"123")==0
             || strcmp(pin,"124")==0 || strcmp(pin,"125")==0 || strcmp(pin,"126")==0 || strcmp(pin,"127")==0);
@@ -65,6 +80,10 @@ int digitalRead(const char pin[]) {
     return value;
 }
 
+/**
+ * @brief cleanUp
+ * @param pin
+ */
 void cleanUp(char pin[]) {
     assert(strcmp(pin,"120")==0 || strcmp(pin,"121")==0 || strcmp(pin,"122")==0  || strcmp(pin,"123")==0
             || strcmp(pin,"124")==0 || strcmp(pin,"125")==0 || strcmp(pin,"126")==0 || strcmp(pin,"127")==0);
@@ -74,68 +93,9 @@ void cleanUp(char pin[]) {
     close(fd_unexport);
 }
 
-void* runningLight(void){
-    while(1){
-        if(direction == 0){
-            digitalWrite("127", "0");
-            digitalWrite("124", "1");
-            usleep(blink_period);
-            digitalWrite("124", "0");
-            digitalWrite("125", "1");
-            usleep(blink_period);
-            digitalWrite("125", "0");
-            digitalWrite("126", "1");
-            usleep(blink_period);
-            digitalWrite("126", "0");
-            digitalWrite("127", "1");
-            usleep(blink_period);
-        }else{
-            digitalWrite("124", "0");
-            digitalWrite("127", "1");
-            usleep(blink_period);
-            digitalWrite("127", "0");
-            digitalWrite("126", "1");
-            usleep(blink_period);
-            digitalWrite("126", "0");
-            digitalWrite("125", "1");
-            usleep(blink_period);
-            digitalWrite("125", "0");
-            digitalWrite("124", "1");
-            usleep(blink_period);
-        }
-    }
-    return NULL;
-}
-
-void* pollButtons(void){
-    while(1){
-        printf("poll\n");
-        if (digitalRead("121") == 0){
-            if(blink_period > 62500){
-                blink_period /= 2;
-            }
-        }
-        if (digitalRead("122") == 0){
-            if(blink_period < 1000000){
-                blink_period *= 2;
-            }
-        }
-        if (digitalRead("123") == 0){
-            digitalWrite("124", "0");
-            digitalWrite("125", "0");
-            digitalWrite("126", "0");
-            digitalWrite("127", "0");
-            if(direction == 0){
-                direction = 1;
-            }else{
-                direction = 0;
-            }
-        }
-        usleep(100000);
-    }
-    return NULL;
-}
-
+/**
+ * @brief init all leds and buttons
+ */
 void initHardware(void){
     printf("init hardware\n");
     pinMode("124", "out");
@@ -152,6 +112,9 @@ void initHardware(void){
     digitalWrite("127", "0");
 }
 
+/**
+ * @brief deinit all leds and buttons
+ */
 void deinitHardware(void){
     printf("deinit hardware\n");
     digitalWrite("124", "0");
