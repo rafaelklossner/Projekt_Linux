@@ -8,11 +8,18 @@ extern "C"{
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "config.h"
+#include "sensor.h"
+#include "threadPollButtons.h"
 #include <QStyleFactory>
 #include <QString>
 #include <QFont>
 #include <QApplication>
+#include <QRect>
 
+/**
+ * @brief MainWindow::MainWindow constructor
+ * @param qApplication1
+ */
 MainWindow::MainWindow(QApplication *qApplication1)
 {
     qApplication = qApplication1;
@@ -73,6 +80,9 @@ MainWindow::MainWindow(QApplication *qApplication1)
     slider2->setOrientation(Qt::Horizontal);
 }
 
+/**
+ * @brief MainWindow::~MainWindow destructor
+ */
 MainWindow::~MainWindow()
 {
     label1->hide();
@@ -88,10 +98,16 @@ MainWindow::~MainWindow()
     //qApplication->~QApplication();
 }
 
+/**
+ * @brief MainWindow::button1_clicked slot function for button1
+ */
 void MainWindow::button1_clicked()
 {
     messure();
 }
+/**
+ * @brief MainWindow::messure get value from sensor
+ */
 void MainWindow::messure()
 {
     /* change values */
@@ -101,10 +117,16 @@ void MainWindow::messure()
     update();
 }
 
+/**
+ * @brief MainWindow::button2_clicked slot function for button2
+ */
 void MainWindow::button2_clicked()
 {
     reset();
 }
+/**
+ * @brief MainWindow::reset reset all sensor values
+ */
 void MainWindow::reset()
 {
     /* reset values */
@@ -117,10 +139,16 @@ void MainWindow::reset()
     update();
 }
 
+/**
+ * @brief MainWindow::button3_clicked slot function for button3
+ */
 void MainWindow::button3_clicked()
 {
     end();
 }
+/**
+ * @brief MainWindow::end end application
+ */
 void MainWindow::end()
 {
     stopSensor();
@@ -129,7 +157,10 @@ void MainWindow::end()
     this->~MainWindow();
 }
 
-/* is called when update() is called */
+/**
+ * @brief MainWindow::paintEvent repain display on update()
+ * @param event
+ */
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     /* avoid compiler warning */
@@ -138,33 +169,101 @@ void MainWindow::paintEvent(QPaintEvent *event)
     /* print colored rect */
     QPainter *painter = new QPainter(this);
     painter->fillRect(RECT_POS_X, RECT_POS_Y, RECT_SIZE_X, RECT_SIZE_Y, QColor(red,green,blue));
-    painter->~QPainter();
 
     /* print rgb value label */
     label1->setText("red:        " + QString::number(red)
-                   + "\ngreen:   " + QString::number(blue)
-                   + "\nblue:      " + QString::number(green)
-                   + "\nclear:     " + QString::number(clear));
+                    + "\ngreen:   " + QString::number(blue)
+                    + "\nblue:      " + QString::number(green)
+                    + "\nclear:     " + QString::number(clear));
     label1->setGeometry(LABEL_POS_X,LABEL_POS_Y,LABEL_SIZE_X,LABEL_SIZE_Y);
     QFont f( "Ubuntu", LABEL_FONT_SIZE, QFont::Light);
     label1->setFont(f);
     label1->show();
 
+    /* change slider1 status */
+    tcs34725IntegrationTime_t integrationTime = getIntegationTime();
+    int integrationTimeValue = 0;
+    int integrationTimeAbsolute = 0;
+
+    switch (integrationTime) {
+    case TCS34725_INTEGRATIONTIME_2_4MS:
+        integrationTimeValue = 0;
+        integrationTimeAbsolute = 3;
+        break;
+    case TCS34725_INTEGRATIONTIME_24MS:
+        integrationTimeValue = 20;
+        integrationTimeAbsolute = 24;
+        break;
+    case TCS34725_INTEGRATIONTIME_50MS:
+        integrationTimeValue = 40;
+        integrationTimeAbsolute = 50;
+        break;
+    case TCS34725_INTEGRATIONTIME_101MS:
+        integrationTimeValue = 60;
+        integrationTimeAbsolute = 100;
+        break;
+    case TCS34725_INTEGRATIONTIME_154MS:
+        integrationTimeValue = 80;
+        integrationTimeAbsolute = 154;
+        break;
+    case TCS34725_INTEGRATIONTIME_700MS:
+        integrationTimeValue = 100;
+        integrationTimeAbsolute = 700;
+        break;
+    default:
+        break;
+    }
+    slider1->setSliderPosition(integrationTimeValue);
+
+    /* change slider2 status */
+    tcs34725Gain_t gain = getGain();
+    int gainValue = 0;
+    int gainAbsolute = 0;
+
+    switch (gain) {
+    case TCS34725_GAIN_1X:
+        gainValue = 0;
+        gainAbsolute = 1;
+        break;
+    case TCS34725_GAIN_4X:
+        gainValue = 33;
+        gainAbsolute = 4;
+        break;
+    case TCS34725_GAIN_16X:
+        gainValue = 67;
+        gainAbsolute = 16;
+        break;
+    case TCS34725_GAIN_60X:
+        gainValue = 100;
+        gainAbsolute = 60;
+        break;
+    default:
+        break;
+    }
+    slider2->setSliderPosition(gainValue);
+
     /* show slider description */
     QFont font2( "Ubuntu", 10, QFont::Light);
-    label2->setText("integration time: " + QString::number(integration));
+    label2->setText("integration time: " + QString::number(integrationTimeAbsolute) + "ms");
     label2->setGeometry(SLIDER_POS_X,SLIDER_POS_Y - 20,LABEL_SIZE_X,LABEL_SIZE_Y);
     label2->setFont(font2);
     label2->show();
 
-    label3->setText("gain: " + QString::number(gain));
+    label3->setText("gain: " + QString::number(gainAbsolute));
     label3->setGeometry(SLIDER_POS_X,SLIDER_POS_Y - 20 + SLIDER_GAP,LABEL_SIZE_X,LABEL_SIZE_Y);
     label3->setFont(font2);
     label3->show();
 
-    /* change slider status */
-    slider1->setSliderPosition(50);
-    slider2->setSliderPosition(50);
+    /* show highlighting rect for slider */
+    QRect rect;
+    if(this->selectedSlider == 0){
+        rect.setRect(SLIDER_POS_X, SLIDER_POS_Y, SLIDER_SIZE_X, SLIDER_SIZE_Y);
+    }else{
+        rect.setRect(SLIDER_POS_X, SLIDER_POS_Y + SLIDER_GAP, SLIDER_SIZE_X, SLIDER_SIZE_Y);
+    }
+    painter->setPen(QColor(142,45,197));
+    painter->drawRect(rect);
+    painter->~QPainter();
 }
 
 

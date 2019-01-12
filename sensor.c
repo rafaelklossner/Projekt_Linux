@@ -41,8 +41,10 @@ tcs34725Gain_t getGain(void){
  * @param setGain gain macro to set
  */
 void setGain(tcs34725Gain_t setGain){
-    gain = setGain;
-    configSensor();
+    if(sensorConnected == 1){
+        gain = setGain;
+        configSensor();
+    }
 }
 
 /**
@@ -50,8 +52,10 @@ void setGain(tcs34725Gain_t setGain){
  * @param setIntegrationTime time macro to set
  */
 void setIntegationTime(tcs34725IntegrationTime_t setIntegrationTime){
-    integrationTime = setIntegrationTime;
-    configSensor();
+    if(sensorConnected == 1){
+        integrationTime = setIntegrationTime;
+        configSensor();
+    }
 }
 
 /**

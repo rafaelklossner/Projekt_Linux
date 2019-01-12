@@ -77,6 +77,10 @@ void sigint_handler(int sig);
  ***************************************************************************
  */
 
+/**
+ * @brief signal_callback_handler
+ * @param signum
+ */
 void signal_callback_handler(int signum)
 {
     /* Inform user */
@@ -89,6 +93,10 @@ void signal_callback_handler(int signum)
     exit(signum);
 }
 
+/**
+ * @brief initPoti
+ * @return
+ */
 int initPoti(void){
     /* Register signal and signal handler */
     signal(SIGINT, signal_callback_handler);
@@ -105,11 +113,18 @@ int initPoti(void){
     return 0;
 }
 
+/**
+ * @brief deinitPoti
+ */
 void deinitPoti(void){
     /* Clean up and exit */
     close(adc_fd);
 }
 
+/**
+ * @brief readPoti
+ * @return
+ */
 float readPoti(void){
     charRead = read(adc_fd, adcBuffer, sizeof(adcBuffer));
     if (charRead != -1){
