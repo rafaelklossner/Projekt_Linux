@@ -155,25 +155,32 @@ void MainWindow::paintEvent(QPaintEvent *event)
     /* change slider1 status */
     tcs34725IntegrationTime_t integrationTime = getIntegationTime();
     int integrationTimeValue = 0;
+    int integrationTimeAbsolute = 0;
 
     switch (integrationTime) {
     case TCS34725_INTEGRATIONTIME_2_4MS:
         integrationTimeValue = 0;
+        integrationTimeAbsolute = 3;
         break;
     case TCS34725_INTEGRATIONTIME_24MS:
-        integrationTimeValue = 3;
+        integrationTimeValue = 20;
+        integrationTimeAbsolute = 24;
         break;
     case TCS34725_INTEGRATIONTIME_50MS:
-        integrationTimeValue = 7;
+        integrationTimeValue = 40;
+        integrationTimeAbsolute = 50;
         break;
     case TCS34725_INTEGRATIONTIME_101MS:
-        integrationTimeValue = 14;
+        integrationTimeValue = 60;
+        integrationTimeAbsolute = 100;
         break;
     case TCS34725_INTEGRATIONTIME_154MS:
-        integrationTimeValue = 21;
+        integrationTimeValue = 80;
+        integrationTimeAbsolute = 154;
         break;
     case TCS34725_INTEGRATIONTIME_700MS:
         integrationTimeValue = 100;
+        integrationTimeAbsolute = 700;
         break;
     default:
         break;
@@ -183,19 +190,24 @@ void MainWindow::paintEvent(QPaintEvent *event)
     /* change slider2 status */
     tcs34725Gain_t gain = getGain();
     int gainValue = 0;
+    int gainAbsolute = 0;
 
     switch (gain) {
     case TCS34725_GAIN_1X:
         gainValue = 0;
+        gainAbsolute = 1;
         break;
     case TCS34725_GAIN_4X:
-        gainValue = 7;
+        gainValue = 33;
+        gainAbsolute = 4;
         break;
     case TCS34725_GAIN_16X:
-        gainValue = 26;
+        gainValue = 67;
+        gainAbsolute = 16;
         break;
     case TCS34725_GAIN_60X:
         gainValue = 100;
+        gainAbsolute = 60;
         break;
     default:
         break;
@@ -204,12 +216,12 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
     /* show slider description */
     QFont font2( "Ubuntu", 10, QFont::Light);
-    label2->setText("integration time: " + QString::number(integrationTimeValue));
+    label2->setText("integration time: " + QString::number(integrationTimeAbsolute) + "ms");
     label2->setGeometry(SLIDER_POS_X,SLIDER_POS_Y - 20,LABEL_SIZE_X,LABEL_SIZE_Y);
     label2->setFont(font2);
     label2->show();
 
-    label3->setText("gain: " + QString::number(gainValue));
+    label3->setText("gain: " + QString::number(gainAbsolute));
     label3->setGeometry(SLIDER_POS_X,SLIDER_POS_Y - 20 + SLIDER_GAP,LABEL_SIZE_X,LABEL_SIZE_Y);
     label3->setFont(font2);
     label3->show();
