@@ -1,14 +1,9 @@
-/*TODO
- * add thread for poll buttons (currently for c++ not working, library version missing)
- * Solve i2c-4 problem --> must touch display to continue (display also on i2c-4 bus) --> possibly solved with not shuting down x-server
- * proper clean up when pressing finish button (now it ends with segmentation fault)
- */
-
 /* c header */
 extern "C"{
 #include "sensor.h"
 #include "button.h"
 #include "poti.h"
+
 }
 
 /* c++ header */
@@ -20,23 +15,39 @@ extern "C"{
 
 using namespace std;
 
+/**
+ * @brief main function of this application
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char *argv[])
 {
     int status = 0;
+
+    /* inform user */
     cout << "Starting Application Color Sensing\n";
+
+    /* init leds, buttons, poti and color sensor */
     initHardware();
     initPoti();
     status = initSensor();
     if(status == 1){
+        /* config sensor with integration time and gain */
         configSensor();
+        /* start messurement */
         startSensor();
+
+        /* make a qApp with and a Window and show it */
         QApplication qApplication(argc, argv);
         MainWindow window(&qApplication);
         window.show();
+
+        /* start a thrad to poll buttons and poti */
         ThreadPollButtons threadPollButtons(&window);
         threadPollButtons.start();
 
-        /* stays in here until finish*/
+        /* app loop */
         return qApplication.exec();
     }
     return 0;

@@ -6,9 +6,6 @@
 #include <fcntl.h>
 #include <assert.h>
 
-int blink_period = 1000000;
-int direction = 0;
-
 /**
  * @brief set mode "in" or "out" for specific pin
  * @param pin

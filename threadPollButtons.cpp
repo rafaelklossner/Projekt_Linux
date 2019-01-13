@@ -24,7 +24,8 @@ ThreadPollButtons::ThreadPollButtons(MainWindow *window1)
  */
 void ThreadPollButtons::run()
 {
-    while(1){
+    int status = 0;
+    while(status >= 0){
         cout << "thread\n";
 
         /* read buttons and debounce them by compare actual with old value */
@@ -77,6 +78,9 @@ void ThreadPollButtons::run()
                 /* perform action */
                 cout << "T4\n";
                 window->end();
+                window->~MainWindow();
+                status = -1;
+
             }
             state[3] = 0;
         }else{

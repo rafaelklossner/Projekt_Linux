@@ -2,9 +2,11 @@
 extern "C"{
 #include "sensor.h"
 #include "button.h"
+#include "poti.h"
 }
 
 /* c++ header */
+#include <iostream>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "config.h"
@@ -15,6 +17,8 @@ extern "C"{
 #include <QFont>
 #include <QApplication>
 #include <QRect>
+
+using namespace std;
 
 /**
  * @brief MainWindow::MainWindow constructor
@@ -85,17 +89,18 @@ MainWindow::MainWindow(QApplication *qApplication1)
  */
 MainWindow::~MainWindow()
 {
-    label1->hide();
+    cout << "destroyer\n";
     label1->~QLabel();
-    button1->hide();
+    label2->~QLabel();
+    label3->~QLabel();
+    cout << "qlabel\n";
     button1->~QPushButton();
-    button2->hide();
     button2->~QPushButton();
-    button3->hide();
     button3->~QPushButton();
-    //qApplication->closeAllWindows();
-    //qApplication->quit();
-    //qApplication->~QApplication();
+    cout << "button\n";
+    slider1->~QSlider();
+    slider2->~QSlider();
+    cout << "slider\n";
 }
 
 /**
@@ -112,6 +117,9 @@ void MainWindow::messure()
 {
     /* change values */
     getData(&red, &green, &blue, &clear);
+
+    /* reset color status */
+    colorStatus = 0;
 
     /* update display */
     update();
@@ -152,9 +160,14 @@ void MainWindow::button3_clicked()
 void MainWindow::end()
 {
     stopSensor();
+    cout << "stopped sensor\n";
     deinitSensor();
+    cout << "deinit sensor\n";
     deinitHardware();
-    this->~MainWindow();
+    deinitPoti();
+    cout << "deinit HW\n";
+    //this->~MainWindow();
+    cout << "destroy\n";
 }
 
 /**
@@ -163,12 +176,32 @@ void MainWindow::end()
  */
 void MainWindow::paintEvent(QPaintEvent *event)
 {
+
     /* avoid compiler warning */
     (void) event;
 
     /* print colored rect */
     QPainter *painter = new QPainter(this);
+    if(red > 255){
+        red = 255;
+        colorStatus = -1;
+    }
+    if(blue > 255){
+        blue = 255;
+        colorStatus = -1;
+    }
+    if(green > 255){
+        green = 255;
+        colorStatus = -1;
+    }
     painter->fillRect(RECT_POS_X, RECT_POS_Y, RECT_SIZE_X, RECT_SIZE_Y, QColor(red,green,blue));
+
+    /* print message if rgb value is to bright */
+    if (colorStatus != 0){
+        painter->drawText(SLIDER_POS_X, RECT_POS_Y + 20, QString("to bright:"));
+        painter->drawText(SLIDER_POS_X, RECT_POS_Y + 40, QString("please reduce integration"));
+        painter->drawText(SLIDER_POS_X, RECT_POS_Y + 60, QString("time or gain\n"));
+    }
 
     /* print rgb value label */
     label1->setText("red:        " + QString::number(red)

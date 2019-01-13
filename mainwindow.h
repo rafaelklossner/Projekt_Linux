@@ -15,6 +15,7 @@ class MainWindow : public QWidget
 public:
     explicit MainWindow(QApplication *qApplication1);
     ~MainWindow();
+    int colorStatus = 0;
     uint16_t red = 0;
     uint16_t blue = 0;
     uint16_t green = 0;
