@@ -71,7 +71,6 @@ void write8(uint8_t reg, uint8_t value){
     if (write(i2c_fd, buffer, 2) != 2){
         perror("write error!");
     }
-    usleep(100);
 }
 
 /**
@@ -91,7 +90,6 @@ uint8_t read8(uint8_t reg){
     if (read(i2c_fd, &receive, 1) != 1){
         perror("read error!");
     }
-    usleep(100);
     return receive;
 }
 
