@@ -7,7 +7,7 @@ sudo mount -t nfs 192.168.2.100:/
 
 # Überprüfbar mit 
 
-/opt/embedded/firefly/rootfs
+cd /opt/embedded/firefly/rootfs
 
 ls -l
 
@@ -68,10 +68,22 @@ Potentiometer P1
 						 21 = 154 	ms
 						100 = 700 	ms
 
+# bei zu grosser Integrationszeit kann Messung nicht richtig verarbeitet werden.
+
 # Abstufung des gain auf Slider: 		  0 =  1x
 						  7 =  4x
 						 26 = 16x
 						100 = 60x
+
+# Der Farbsensor befindet sich ungefähr auf der Unterseite des BFH Symbols
+# Am besten geeignet sind leuchtende Displys wie Handydisplays um die Farbe zu erkennen. 
+# Gegenstände die nicht selber leuchten sind schwiriger zu erfassen
+# Signalisation der Messung:	red: 	der Farbanteil von rot
+				green: 	der Farbanteil von grün
+				bleu: 	der Farbanteil von blau
+				clear:	gesamte Farbintensität über alle spektren
+
+# Es erfolgt auch eine optische Ausgabe der gemessenen Farbe im Quadrat neben dem Quit Button
 
 # application beendbar mit
 
