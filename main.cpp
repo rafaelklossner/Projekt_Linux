@@ -12,6 +12,7 @@ extern "C"{
 #include <QThread>
 #include <iostream>
 #include <threadPollButtons.h>
+#include <threadRunningLight.h>
 
 using namespace std;
 
@@ -46,6 +47,10 @@ int main(int argc, char *argv[])
         /* start a thrad to poll buttons and poti */
         ThreadPollButtons threadPollButtons(&window);
         threadPollButtons.start();
+
+        /* start a thrad to poll buttons and poti */
+        ThreadRunningLight threadRunningLight(5);
+        threadRunningLight.start();
 
         /* app loop */
         return qApplication.exec();

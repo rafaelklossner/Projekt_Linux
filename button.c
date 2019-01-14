@@ -38,7 +38,7 @@ void pinMode(char pin[], char mode[]) {
  * @param pin
  * @param value
  */
-void digitalWrite(char pin[], char value[]) {
+void digitalWrite(const char pin[], const char value[]) {
     assert(strcmp(pin,"120")==0 || strcmp(pin,"121")==0 || strcmp(pin,"122")==0  || strcmp(pin,"123")==0
             || strcmp(pin,"124")==0 || strcmp(pin,"125")==0 || strcmp(pin,"126")==0 || strcmp(pin,"127")==0);
     assert(strcmp(value,"0")==0 || strcmp(value,"1")==0);
