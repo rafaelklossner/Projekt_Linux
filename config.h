@@ -39,4 +39,8 @@
 #define POTI_GAP_6 25
 #define POTI_LOOP_DIVIDER 1
 
+/* led blinking */
+#define LED_BLINK_TIME 10000
+#define LED_WAIT_TIME 5000000
+
 #endif // CONFIG_H

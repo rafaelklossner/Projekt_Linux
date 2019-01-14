@@ -26,8 +26,6 @@ void ThreadPollButtons::run()
 {
     int status = 0;
     while(status >= 0){
-        cout << "thread\n";
-
         /* read buttons and debounce them by compare actual with old value */
         /* button T1 */
         if (digitalRead("120") == 0){

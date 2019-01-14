@@ -89,18 +89,14 @@ MainWindow::MainWindow(QApplication *qApplication1)
  */
 MainWindow::~MainWindow()
 {
-    cout << "destroyer\n";
     label1->~QLabel();
     label2->~QLabel();
     label3->~QLabel();
-    cout << "qlabel\n";
     button1->~QPushButton();
     button2->~QPushButton();
     button3->~QPushButton();
-    cout << "button\n";
     slider1->~QSlider();
     slider2->~QSlider();
-    cout << "slider\n";
 }
 
 /**
@@ -160,14 +156,9 @@ void MainWindow::button3_clicked()
 void MainWindow::end()
 {
     stopSensor();
-    cout << "stopped sensor\n";
     deinitSensor();
-    cout << "deinit sensor\n";
     deinitHardware();
     deinitPoti();
-    cout << "deinit HW\n";
-    //this->~MainWindow();
-    cout << "destroy\n";
 }
 
 /**

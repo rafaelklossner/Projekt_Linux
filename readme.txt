@@ -1,49 +1,63 @@
-
-# ungelöstes Problem. Ic2 Sensorauslesung funktioniert nicht immer, wenn das Programm hängen bleibt Bildschirm antippen
+ColorSensing
 
 # Das Firefly muss gemountet sein, solte das nicht der fall sein
 
-sudo mount -t nfs 192.168.2.100:/
+@host sudo mount -t nfs 192.168.2.100:/
 
 # Überprüfbar mit 
 
-cd /opt/embedded/firefly/rootfs
+@host cd /opt/embedded/firefly/rootfs
 
-ls -l
+@host ls -l
 
 # dieser Ordner sollte nicht leer sein
 
 # Es wird eine ssh verbidnugn zum Friefly benötigt
 
-ssh 192.168.2.100
+@host ssh 192.168.2.100
 
 # der x-Server muss ausgeschaltet werden
 
-/usr/local/bin/xdown.sh
+@target /usr/local/bin/xdown.sh
 
 # oder einfach
 
-xdown.sh
+@target xdown.sh
 
 # blinkender Cursor ausschalten
 
-sudo su
-echo 0 > /sys/class/graphics/fbcon/cursor_blink
-exit
+@target sudo su
+@target echo 0 > /sys/class/graphics/fbcon/cursor_blink
+@target exit
 
 # Der Nutzer benötigt Zugrifsrechte für die ic2 Schnittstelle falls diese nochnicht vorhanden sind
 
-sudo usermod -a -G i2c student
+@target sudo usermod -a -G i2c student
 
 # möglicherweise ist es nötig das Terminal nochmal zu schliessen und neu zu öffnen damit alles übernommen wird
 
 # üperprüfbar mit 
 
-groups
+@target groups
+
+# ungelöstes Problem. Ic2 Sensorauslesung funktioniert nicht immer, wenn das Programm hängen bleibt Bildschirm antippen
+# um das problem zu umgehen kann der Touch treiber ausgeschlatet werden so funktionieren aber keine touch funktionen mehr
+
+@target cd /sys/bus/i2c/drivers/edt_ft5x06
+@target sudo su
+@target echo -n "4-0038" > unbind
+@target exit
+
+# um touch treiber wider zu aktivieren
+
+@target cd /sys/bus/i2c/drivers/edt_ft5x06
+@target sudo su
+@target echo -n "4-0038" > bind
+@target exit
 
 # application ausführbar mit
 
-./qt5/ColorSensing 
+@target ./qt5/ColorSensing 
 
 # Messung starten mit
 

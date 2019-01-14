@@ -29,7 +29,8 @@ SOURCES += \
     sensor.c \
     button.c \
     threadPollButtons.cpp \
-    poti.c
+    poti.c \
+    threadRunningLight.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -37,7 +38,8 @@ HEADERS += \
     config.h \
     button.h \
     threadPollButtons.h \
-    poti.h
+    poti.h \
+    threadRunningLight.h
 
 FORMS += \
         mainwindow.ui
