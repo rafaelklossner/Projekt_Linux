@@ -1,106 +1,168 @@
-ColorSensing
+ColorSensing |
+-------------
 
-# Das Firefly muss gemountet sein, solte das nicht der fall sein
+Überblick
+---------
+Die Applikation ColorSensing dient dem Feststellen des RGB Farbwertes
+eines Gegenstandes oder eines Displays. Dazu kann per Knopfdruck eine
+Messung gestartet werden. In diesem Projekt wird zum bestimmen der
+Farbe der TCS3472 Sensor verwendet. Um die Anwendung zu starten sind
+einige Vorarbeiten nötig.
 
-@host sudo mount -t nfs 192.168.2.100:/
+Vorbereitung des Firefly
+-------------------------
+Um die Applikation in QT zu kompilieren und zu starten, muss
+sichergestellt werden, dass das rootfs des Firefly im host
+System gemountet ist.
 
-# Überprüfbar mit 
+Schritt 1
+----------
+@host sudo mount -t nfs 192.168.2.100:/ /opt/embedded/firefly/rootfs
+
+Überprüfbar mit: 
 
 @host cd /opt/embedded/firefly/rootfs
-
 @host ls -l
 
-# dieser Ordner sollte nicht leer sein
+Dieser Ordner sollte das fs des Firefly enthalten.
 
-# Es wird eine ssh verbidnugn zum Friefly benötigt
+
+Schritt 2
+----------
+Es wird eine ssh Verbindung zum Friefly benötigt um den x-Server
+auszuschalten.
 
 @host ssh 192.168.2.100
 
-# der x-Server muss ausgeschaltet werden
+x-Server ausschalten
 
 @target /usr/local/bin/xdown.sh
-
-# oder einfach
-
+oder einfach
 @target xdown.sh
 
-# blinkender Cursor ausschalten
+blinkender Cursor ausschalten
 
 @target sudo su
 @target echo 0 > /sys/class/graphics/fbcon/cursor_blink
 @target exit
 
-# Der Nutzer benötigt Zugrifsrechte für die ic2 Schnittstelle falls diese nochnicht vorhanden sind
 
-@target sudo usermod -a -G i2c student
+Schritt 3
+----------
+Im nächsten Schritt muss sichergestellt werden, dass eine
+Zugriffsberechtigung auf das i2c Device vorhanden ist.
 
-# möglicherweise ist es nötig das Terminal nochmal zu schliessen und neu zu öffnen damit alles übernommen wird
+Dazu wird im Verzeichnis
+@target cd /etc/udev/rules.d
 
-# üperprüfbar mit 
+eine Datei i2c.rules erstellt mit
+@target sudo nano i2c.rules
 
-@target groups
+in diese wird der folgende Text kopiert
+# i2c devices
+KERNEL=="i2c-[0-9]*", NAME="i2c/%n", SYMLINK+="%k"
+KERNEL=="i2c-0" , GROUP="dialout", MODE="0660"
+KERNEL=="i2c-[1-9]*", GROUP="dialout", MODE="0666"
 
-# ungelöstes Problem. Ic2 Sensorauslesung funktioniert nicht immer, wenn das Programm hängen bleibt Bildschirm antippen
-# um das problem zu umgehen kann der Touch treiber ausgeschlatet werden so funktionieren aber keine touch funktionen mehr
+
+Schritt 4
+----------
+Da möglicherweise ein Problem mit dem Touch-Treiber des Displays
+besteht, muss dieses Modul entfernt werden. Ansosnten tretten
+Probleme beim Senden und Empfangen der Sensordaten auf.
 
 @target cd /sys/bus/i2c/drivers/edt_ft5x06
 @target sudo su
 @target echo -n "4-0038" > unbind
 @target exit
 
-# um touch treiber wider zu aktivieren
+um touch Treiber wider zu aktivieren (Schritt überspringen)
 
 @target cd /sys/bus/i2c/drivers/edt_ft5x06
 @target sudo su
 @target echo -n "4-0038" > bind
 @target exit
 
-# application ausführbar mit
+
+Ausführen der Applikation
+-------------------------
+Zunächst wird die Applikation in QT geöffnet. Dazu wird am
+besten der Ordner ColorSensing in den Workspace von QT
+verschoben. Anschliessend wird QT geöffnet und mit "open project"
+wird die Datei ColorSensing.pro im Ordner ColorSensing
+ausgewählt.
+
+Anmerkung: 	Um die Applikation für das Firefly zu kompilieren
+		muss QT natürlich vorher konfigueriert werden und
+		ein Profil dür das Firefly erstellt werden. Dies
+		geschieht am besten mit der Anleitung
+		"Getting Started with QtCreator" in Session 4
+		des Moodle Kurses für das Modul BTE5446
+		
+		--> Link: https://moodle.bfh.ch/course/view.php?id=18721
+
+Nun wird das Projekt in QT für das Firefly kompiliert. Mit Run kann
+die Applikation dann direkt ausgeführt werden.
+Die Applikation kann mit dem Befehl
 
 @target ./qt5/ColorSensing 
 
-# Messung starten mit
+direkt in der Konsole gastartet werden. Dies bietet den Vorteil,
+dass Meldung schneller Angezeigt werden als in der Konsole von
+QT.
 
-Display Button Start messurement oder Taster T1
 
-# Messung resetten mit
+Bedienung Applikation
+-------------------------
 
-Display Button Reset messurement oder Taster T2
+Tasten, Knöpfe, LEDs und deren Funktion:
 
-# Umschalten zwischen integration time und gain (Der momentan ausgewählte wird markiert mit einem blauen Rechteck)
+T1 	Start Messurement 	--> 	Startet eine Einzelmessung
+T2 	Reset Messurement	--> 	Setzt das Display auf den Ursprünglichen
+					zurück
+T3 	Umschalttaste Poti	--> 	Dient dem Umschalten zwischen den Einstellungen
+					integration time und gain
+T4 	Quit			--> 	Beendet die Applikation
+P1	Einstellung integration	--> 	Mit dem Poti kann entwder die Integrationszeit
+	time und gain			oder der gain eingestellt werden (Umschalten
+					mit Taster T3). Die Auswahl wird mit eine
+					violetten Rahmen angezeigt.
+					Beide Werte bewirken beim erhöhen eine Erhöhung
+					der Messempfindlichkeit
+L1-L4	Signalisation "running	-->	Lauflicht das alle 5s durchläuft
+	application"
 
-Taster T3
+Anmerkung: 	Wird die Messempfindlichkeit zu hoch eingestellt
+		geraten die rgb Werte in Sättigung (max. 255)
+		und die Anzeige der Farbe auf dem Display stimmt
+		nicht mehr.
+		--> Meldung unter Slider beachten
+		Das Einstellen der Werte erfodert etwas
+		Fingerspitzengefühl und ist stark von den
+		lokalen Lichtverhälnissen abhängig.
+		
 
-# Verändern der integration time oder gain
+Für die Tasten T1, T2 und T4 gibt es auf dem Diplay Knöpfe
+mit der entsprechenden Beschriftung.
 
-Potentiometer P1
+Anmerkung: 	Die Touch-Funktion kann aufgrund des entfernten
+		Touch Treibers nicht verwendet werden.
 
-# Abstufungen der integration time auf Slider: 	  0 =   2,4	ms
-						  3 =  24	ms
-						  7 =  50	ms
-						 14 = 101 	ms
-						 21 = 154 	ms
-						100 = 700 	ms
+Der Farbsensor befindet sich ungefähr auf der Unterseite des BFH Symbols.
+Am besten geeignet sind leuchtende Displays um die Farbe zu erkennen. 
+Gegenstände die nicht selber leuchten sind schwieriger zu erfassen
 
-# bei zu grosser Integrationszeit kann Messung nicht richtig verarbeitet werden.
-
-# Abstufung des gain auf Slider: 		  0 =  1x
-						  7 =  4x
-						 26 = 16x
-						100 = 60x
-
-# Der Farbsensor befindet sich ungefähr auf der Unterseite des BFH Symbols
-# Am besten geeignet sind leuchtende Displys wie Handydisplays um die Farbe zu erkennen. 
-# Gegenstände die nicht selber leuchten sind schwiriger zu erfassen
-# Signalisation der Messung:	red: 	der Farbanteil von rot
+Signalisation der Messung:	red: 	der Farbanteil von rot
 				green: 	der Farbanteil von grün
 				bleu: 	der Farbanteil von blau
 				clear:	gesamte Farbintensität über alle spektren
 
-# Es erfolgt auch eine optische Ausgabe der gemessenen Farbe im Quadrat neben dem Quit Button
+Es erfolgt auch eine optische Ausgabe der gemessenen Farbe im Quadrat neben dem Quit Button.
 
-# application beendbar mit
 
-Button Quit auf Display oder mit Taster T4 oder mit ctrl C 
-
+Beenden der Applikation
+-------------------------
+Konsole: 	ctrl-c
+QT: 		Rotes Quadrat (Stop)
+Firefly: 	T4
 
